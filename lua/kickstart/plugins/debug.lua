@@ -76,6 +76,93 @@ return {
       end,
       desc = 'Debug: See last session result.',
     },
+    -- Additional DAP commands
+    {
+      '<leader>dt',
+      function()
+        require('dap').terminate()
+      end,
+      desc = 'Debug: Terminate',
+    },
+    {
+      '<leader>dr',
+      function()
+        require('dap').restart()
+      end,
+      desc = 'Debug: Restart',
+    },
+    {
+      '<leader>dp',
+      function()
+        require('dap').pause()
+      end,
+      desc = 'Debug: Pause',
+    },
+    {
+      '<leader>dR',
+      function()
+        require('dap').run_last()
+      end,
+      desc = 'Debug: Run Last',
+    },
+    {
+      '<leader>dl',
+      function()
+        require('dap').run_to_cursor()
+      end,
+      desc = 'Debug: Run to Cursor',
+    },
+    {
+      '<leader>dC',
+      function()
+        require('dap').set_breakpoint(nil, nil, vim.fn.input('Log message: '))
+      end,
+      desc = 'Debug: Set Log Point',
+    },
+    {
+      '<leader>de',
+      function()
+        require('dap').set_exception_breakpoints()
+      end,
+      desc = 'Debug: Set Exception Breakpoints',
+    },
+    {
+      '<leader>du',
+      function()
+        require('dapui').open { reset = true }
+      end,
+      desc = 'Debug: Open UI',
+    },
+    {
+      '<leader>dU',
+      function()
+        require('dapui').close()
+      end,
+      desc = 'Debug: Close UI',
+    },
+    {
+      '<leader>dw',
+      function()
+        require('dap.ui.widgets').hover()
+      end,
+      desc = 'Debug: Widget Hover',
+    },
+    {
+      '<leader>dW',
+      function()
+        local widget = require 'dap.ui.widgets'
+        widget.centered_float(widget.scopes)
+      end,
+      desc = 'Debug: Widget Scopes',
+    },
+    -- DAP REPL
+    {
+      '<leader>dE',
+      function()
+        require('dap').repl.open()
+      end,
+      desc = 'Debug: Open REPL',
+    },
   },
   config = function()
     local dap = require 'dap'
@@ -95,6 +182,8 @@ return {
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
+        'php-debug-adapter',
+        'js-debug-adapter',
       },
     }
 
@@ -144,5 +233,127 @@ return {
         detached = vim.fn.has 'win32' == 0,
       },
     }
+
+    -- PHP Debug Configuration for Docker
+    dap.adapters.php = {
+      type = 'executable',
+      command = 'node',
+      args = { vim.fn.stdpath 'data' .. '/mason/bin/php-debug-adapter' },
+    }
+
+    -- Helper function to find PHP container
+    local function find_php_container()
+      local handle = io.popen 'docker ps --format "table {{.Names}}" | grep php'
+      local result = handle:read '*a'
+      handle:close()
+      
+      for container in result:gmatch '[%w%-%_]+' do
+        if container:match 'php' then
+          return container
+        end
+      end
+      return nil
+    end
+
+    dap.configurations.php = {
+      {
+        type = 'php',
+        request = 'launch',
+        name = 'Debug PHP in Docker',
+        pathMappings = {
+          ['/var/www/html'] = '${workspaceFolder}',
+        },
+        port = 9003,
+        host = 'localhost',
+        xdebugSettings = {
+          max_children = 128,
+          max_data = 1024,
+          max_depth = 3,
+        },
+        docker = {
+          container = function()
+            return find_php_container()
+          end,
+        },
+      },
+      {
+        type = 'php',
+        request = 'launch',
+        name = 'Listen for Xdebug (Docker)',
+        pathMappings = {
+          ['/var/www/html'] = '${workspaceFolder}',
+          ['/app'] = '${workspaceFolder}',
+          ['/var/www/app'] = '${workspaceFolder}',
+        },
+        port = 9003,
+        host = 'localhost',
+        xdebugSettings = {
+          max_children = 128,
+          max_data = 1024,
+          max_depth = 3,
+        },
+      },
+    }
+
+    -- Node.js/JavaScript Debug Configuration
+    dap.adapters['pwa-node'] = {
+      type = 'server',
+      host = 'localhost',
+      port = '${port}',
+      executable = {
+        command = 'node',
+        args = { vim.fn.stdpath 'data' .. '/mason/bin/js-debug-adapter', '${port}' },
+      },
+    }
+
+    dap.configurations.javascript = {
+      {
+        type = 'pwa-node',
+        request = 'launch',
+        name = 'Launch Node.js Program',
+        program = '${file}',
+        cwd = '${workspaceFolder}',
+        sourceMaps = true,
+        protocol = 'inspector',
+        console = 'integratedTerminal',
+      },
+      {
+        type = 'pwa-node',
+        request = 'launch',
+        name = 'Launch Node.js Process (npm start)',
+        runtimeExecutable = 'npm',
+        runtimeArgs = { 'start' },
+        cwd = '${workspaceFolder}',
+        sourceMaps = true,
+        protocol = 'inspector',
+        console = 'integratedTerminal',
+      },
+      {
+        type = 'pwa-node',
+        request = 'attach',
+        name = 'Attach to Node.js Process',
+        processId = function()
+          local handle = io.popen 'ps aux | grep node | grep -v grep'
+          local result = handle:read '*a'
+          handle:close()
+          
+          for line in result:gmatch '[^\r\n]+' do
+            local pid = line:match '^%s*(%d+)'
+            if pid then
+              return tonumber(pid)
+            end
+          end
+          return nil
+        end,
+        cwd = '${workspaceFolder}',
+        sourceMaps = true,
+        protocol = 'inspector',
+      },
+    }
+
+    -- React Native Debug Configuration
+    dap.configurations.javascriptreact = dap.configurations.javascript
+    dap.configurations.typescript = dap.configurations.javascript
+    dap.configurations.typescriptreact = dap.configurations.javascript
   end,
 }
