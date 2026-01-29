@@ -167,15 +167,15 @@ vim.o.scrolloff = 10
 vim.o.confirm = true
 
 -- Configure indentation to use 4 spaces instead of tabs
-vim.o.tabstop = 4          -- Number of spaces tabs count for
-vim.o.shiftwidth = 4       -- Number of spaces for indentation
-vim.o.softtabstop = 4      -- Number of spaces when hitting <Tab>
-vim.o.expandtab = true     -- Use spaces instead of tabs
-vim.o.smartindent = true   -- Smart autoindenting
-vim.o.autoindent = true    -- Copy indent from current line
+vim.o.tabstop = 4 -- Number of spaces tabs count for
+vim.o.shiftwidth = 4 -- Number of spaces for indentation
+vim.o.softtabstop = 4 -- Number of spaces when hitting <Tab>
+vim.o.expandtab = true -- Use spaces instead of tabs
+vim.o.smartindent = true -- Smart autoindenting
+vim.o.autoindent = true -- Copy indent from current line
 
 -- require('custom.filetype-settings').setup_filetype_settings()
-require('custom.navigation-guide')
+require 'custom.navigation-guide'
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -205,33 +205,7 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 --  Use CTRL+<hjkl> to switch between windows
 --
 --  See `:help wincmd` for a list of all window commands
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
--- Enhanced navigation keymaps
-vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeToggle<CR>', { desc = 'Toggle File Explorer' })
-vim.keymap.set('n', '<leader>o', '<cmd>only<CR>', { desc = 'Close other windows' })
-
--- Quick buffer switching
-vim.keymap.set('n', '<leader>1', '<cmd>buffer 1<CR>', { desc = 'Go to buffer 1' })
-vim.keymap.set('n', '<leader>2', '<cmd>buffer 2<CR>', { desc = 'Go to buffer 2' })
-vim.keymap.set('n', '<leader>3', '<cmd>buffer 3<CR>', { desc = 'Go to buffer 3' })
-vim.keymap.set('n', '<leader>4', '<cmd>buffer 4<CR>', { desc = 'Go to buffer 4' })
-vim.keymap.set('n', '<leader>5', '<cmd>buffer 5<CR>', { desc = 'Go to buffer 5' })
-
--- Enhanced file searching with Telescope
-vim.keymap.set('n', '<leader>ff', '<cmd>Telescope find_files<CR>', { desc = '[F]ind [F]iles' })
-vim.keymap.set('n', '<leader>fg', '<cmd>Telescope live_grep<CR>', { desc = '[F]ind by [G]rep' })
-vim.keymap.set('n', '<leader>fb', '<cmd>Telescope buffers<CR>', { desc = '[F]ind [B]uffers' })
-vim.keymap.set('n', '<leader>fh', '<cmd>Telescope help_tags<CR>', { desc = '[F]ind [H]elp' })
-vim.keymap.set('n', '<leader>fc', '<cmd>Telescope git_commits<CR>', { desc = '[F]ind [C]ommits' })
-vim.keymap.set('n', '<leader>fs', '<cmd>Telescope git_status<CR>', { desc = '[F]ind [S]tatus' })
-
--- Quick save and quit
-vim.keymap.set('n', '<leader>w', '<cmd>w<CR>', { desc = '[W]rite file' })
-vim.keymap.set('n', '<leader>q', '<cmd>q<CR>', { desc = '[Q]uit' })
 vim.keymap.set('n', '<leader>x', '<cmd>x<CR>', { desc = 'Save and e[X]it' })
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
@@ -810,15 +784,15 @@ require('lazy').setup({
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        javascript = { "prettierd", "prettier", stop_after_first = true },
-        typescript = { "prettierd", "prettier", stop_after_first = true },
-        javascriptreact = { "prettierd", "prettier", stop_after_first = true },
-        typescriptreact = { "prettierd", "prettier", stop_after_first = true },
-        json = { "prettierd", "prettier", stop_after_first = true },
-        css = { "prettierd", "prettier", stop_after_first = true },
-        scss = { "prettierd", "prettier", stop_after_first = true },
-        html = { "prettierd", "prettier", stop_after_first = true },
-        php = { "php_cs_fixer", "pint", stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        json = { 'prettierd', 'prettier', stop_after_first = true },
+        css = { 'prettierd', 'prettier', stop_after_first = true },
+        scss = { 'prettierd', 'prettier', stop_after_first = true },
+        html = { 'prettierd', 'prettier', stop_after_first = true },
+        php = { 'php_cs_fixer', 'pint', stop_after_first = true },
       },
     },
   },
