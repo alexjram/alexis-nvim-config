@@ -174,6 +174,12 @@ vim.o.expandtab = true -- Use spaces instead of tabs
 vim.o.smartindent = true -- Smart autoindenting
 vim.o.autoindent = true -- Copy indent from current line
 
+-- Enable code folding with indent (works for all languages)
+vim.opt.foldmethod = 'indent'
+vim.opt.foldlevel = 99 -- Start with all folds open
+vim.opt.foldlevelstart = 99
+vim.opt.foldenable = true
+
 -- require('custom.filetype-settings').setup_filetype_settings()
 require 'custom.navigation-guide'
 
@@ -964,7 +970,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'go', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'php', 'python', 'query', 'typescript', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
