@@ -611,7 +611,8 @@ require('lazy').setup({
         -- clangd = {},
         gopls = {},
         phpactor = {},
-        -- pyright = {},
+        vtsls = {},
+        pyright = {},
         -- rust_analyzer = {},
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -869,8 +870,29 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     config = function()
-      local filetypes = { 'bash', 'c', 'diff', 'go', 'gomod', 'gosum', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'php', 'query', 'vim', 'vimdoc' }
-      require('nvim-treesitter').install(filetypes)
+      local filetypes = {
+        'bash',
+        'c',
+        'diff',
+        'go',
+        'gomod',
+        'gosum',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'php',
+        'query',
+        'vim',
+        'vimdoc',
+        'typescript',
+        'javascript',
+        'python',
+      }
+      local ts = require 'nvim-treesitter'
+
+      ts.install(filetypes)
       vim.api.nvim_create_autocmd('FileType', {
         pattern = filetypes,
         callback = function() vim.treesitter.start() end,
