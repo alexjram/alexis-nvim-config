@@ -890,13 +890,14 @@ require('lazy').setup({
         'javascript',
         'python',
       }
-      local ts = require 'nvim-treesitter'
-
-      ts.install(filetypes)
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = filetypes,
-        callback = function() vim.treesitter.start() end,
-      })
+      local ts = require('nvim-treesitter').setup {
+        ensured_installed = filetypes,
+        auto_install = true,
+        hightlight = {
+          enable = true,
+          additional_vim_regex_highlighting = false,
+        },
+      }
     end,
   },
 
