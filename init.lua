@@ -717,8 +717,12 @@ require('lazy').setup({
         css = { 'prettierd', 'prettier', stop_after_first = true },
         scss = { 'prettierd', 'prettier', stop_after_first = true },
         html = { 'prettierd', 'prettier', stop_after_first = true },
+<<<<<<< Updated upstream
         php = { 'php_cs_fixer', 'pint', stop_after_first = true },
         markdown = { 'prettierd', 'prettier', 'injected', stop_after_first = true },
+=======
+        php = { 'php_cs_fixer', 'pint', 'prettierd', stop_after_first = true },
+>>>>>>> Stashed changes
       },
     },
   },
@@ -890,6 +894,8 @@ require('lazy').setup({
         'typescript',
         'javascript',
         'python',
+        'css',
+        'scss',
       }
       local ts = require('nvim-treesitter').setup {
         ensured_installed = filetypes,
