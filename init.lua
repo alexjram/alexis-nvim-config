@@ -718,6 +718,7 @@ require('lazy').setup({
         scss = { 'prettierd', 'prettier', stop_after_first = true },
         html = { 'prettierd', 'prettier', stop_after_first = true },
         php = { 'php_cs_fixer', 'pint', stop_after_first = true },
+        markdown = { 'prettierd', 'prettier', 'injected', stop_after_first = true },
       },
     },
   },
