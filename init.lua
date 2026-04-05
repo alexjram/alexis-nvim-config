@@ -918,7 +918,7 @@ require('lazy').setup({
   require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
   require 'custom.plugins.autotag',
-  -- require 'custom.plugins.supermaven',
+  require 'custom.plugins.supermaven',
   -- require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
