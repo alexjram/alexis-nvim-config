@@ -181,6 +181,10 @@ vim.opt.foldenable = true
 -- require('custom.filetype-settings').setup_filetype_settings()
 require 'custom.navigation-guide'
 
+-- NOTE: The import following line adds a env var for windows users to use tree-sitter-cli
+--
+if vim.fn.has 'win32' == 1 and vim.fn.executable 'gcc.exe' == 1 then vim.env.CC = 'gcc.exe' end
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
