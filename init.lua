@@ -683,6 +683,7 @@ require('lazy').setup({
         'prettierd', -- Used to format JS/TS/CSS/HTML
         'php-cs-fixer', -- Used to format PHP
         'pint', -- Alternative PHP formatter
+        'ruff', -- Used to format Python
         -- You can add other tools here that you want Mason to install
       })
 
@@ -714,6 +715,7 @@ require('lazy').setup({
       format_on_save = function(bufnr)
         -- You can specify filetypes to autoformat on save here:
         local enabled_filetypes = {
+          go = true,
           -- lua = true,
           -- python = true,
         }
@@ -743,6 +745,7 @@ require('lazy').setup({
         html = { 'prettierd', 'prettier', stop_after_first = true },
         php = { 'php_cs_fixer', 'pint', stop_after_first = true },
         markdown = { 'prettierd', 'prettier', 'injected', stop_after_first = true },
+        python = { 'ruff', stop_after_first = true },
       },
     },
   },
