@@ -624,6 +624,7 @@ require('lazy').setup({
         phpactor = {},
         vtsls = {},
         pyright = {},
+        tailwindcss = {},
         -- rust_analyzer = {},
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -684,10 +685,29 @@ require('lazy').setup({
         'php-cs-fixer', -- Used to format PHP
         'pint', -- Alternative PHP formatter
         'ruff', -- Used to format Python
+        'tailwindcss-language-server', -- Tailwind CSS LSP
         -- You can add other tools here that you want Mason to install
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+
+      local function get_server_opts(server_name)
+        local opts = servers[server_name] or {}
+        local ok, cmp_capabilities = pcall(require, 'blink.cmp').get_lsp_capabilities
+        opts.capabilities = ok and cmp_capabilities() or nil
+        return opts
+      end
+
+      require('mason-lspconfig').setup {
+        ensure_installed = {},
+        automatic_installation = true,
+        handlers = {
+          function(server_name)
+            vim.lsp.config(server_name, get_server_opts(server_name))
+            vim.lsp.enable(server_name)
+          end,
+        },
+      }
 
       for name, server in pairs(servers) do
         vim.lsp.config(name, server)
