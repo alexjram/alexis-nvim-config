@@ -99,7 +99,7 @@ do
   vim.g.maplocalleader = ' '
 
   -- Set to true if you have a Nerd Font installed and selected in the terminal
-  vim.g.have_nerd_font = false
+  vim.g.have_nerd_font = true
 
   -- [[ Setting options ]]
   --  See `:help vim.o`
@@ -833,6 +833,12 @@ do
     },
   }
 
+  vim.api.nvim_create_autocmd("BufWrite", {
+    group = vim.api.nvim_create_augroup("conform", { clear = true }),
+    callback = function()
+      require("conform").format({ async = true })
+    end,
+  })
   vim.keymap.set({ 'n', 'v' }, '<leader>f', function() require('conform').format { async = true } end, { desc = '[F]ormat buffer' })
 end
 
