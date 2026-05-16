@@ -1,9 +1,5 @@
 -- supermaven
 --
 
-return {
-  'supermaven-inc/supermaven-nvim',
-  config = function()
-    require('supermaven-nvim').setup {}
-  end,
-}
+vim.pack.add { 'https://github.com/supermaven-inc/supermaven-nvim' }
+require('supermaven-nvim').setup {}
