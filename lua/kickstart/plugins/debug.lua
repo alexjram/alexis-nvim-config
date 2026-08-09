@@ -31,7 +31,7 @@ vim.keymap.set('n', '<leader>dr', function() require('dap').restart() end, { des
 vim.keymap.set('n', '<leader>dp', function() require('dap').pause() end, { desc = 'Debug: Pause' })
 vim.keymap.set('n', '<leader>dR', function() require('dap').run_last() end, { desc = 'Debug: Run Last' })
 vim.keymap.set('n', '<leader>dl', function() require('dap').run_to_cursor() end, { desc = 'Debug: Run to Cursor' })
-vim.keymap.set('n', '<leader>dC', function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log message: ')) end, { desc = 'Debug: Set Log Point' })
+vim.keymap.set('n', '<leader>dC', function() require('dap').set_breakpoint(nil, nil, vim.fn.input 'Log message: ') end, { desc = 'Debug: Set Log Point' })
 vim.keymap.set('n', '<leader>de', function() require('dap').set_exception_breakpoints() end, { desc = 'Debug: Set Exception Breakpoints' })
 vim.keymap.set('n', '<leader>du', function() require('dapui').open { reset = true } end, { desc = 'Debug: Open UI' })
 vim.keymap.set('n', '<leader>dU', function() require('dapui').close() end, { desc = 'Debug: Close UI' })
@@ -71,19 +71,19 @@ dapui.setup {
   -- Set icons to characters that are more likely to work in every terminal.
   --    Feel free to remove or use ones that you like more! :)
   --    Don't feel like these are good choices.
-  icons = { expanded = 'Γû╛', collapsed = 'Γû╕', current_frame = '*' },
+  icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
   ---@diagnostic disable-next-line: missing-fields
   controls = {
     icons = {
-      pause = 'ΓÅ╕',
-      play = 'Γû╢',
-      step_into = 'ΓÅÄ',
-      step_over = 'ΓÅ¡',
-      step_out = 'ΓÅ«',
+      pause = '⏸',
+      play = '▶',
+      step_into = '⏎',
+      step_over = '⏭',
+      step_out = '⏮',
       step_back = 'b',
-      run_last = 'Γû╢Γû╢',
-      terminate = 'ΓÅ╣',
-      disconnect = 'ΓÅÅ',
+      run_last = '▶▶',
+      terminate = '⏹',
+      disconnect = '⏏',
     },
   },
 }
@@ -127,9 +127,7 @@ local function find_php_container()
   handle:close()
 
   for container in result:gmatch '[%w%-%_]+' do
-    if container:match 'php' then
-      return container
-    end
+    if container:match 'php' then return container end
   end
   return nil
 end
@@ -150,9 +148,7 @@ dap.configurations.php = {
       max_depth = 3,
     },
     docker = {
-      container = function()
-        return find_php_container()
-      end,
+      container = function() return find_php_container() end,
     },
   },
   {
@@ -218,9 +214,7 @@ dap.configurations.javascript = {
 
       for line in result:gmatch '[^\r\n]+' do
         local pid = line:match '^%s*(%d+)'
-        if pid then
-          return tonumber(pid)
-        end
+        if pid then return tonumber(pid) end
       end
       return nil
     end,
