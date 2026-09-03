@@ -705,7 +705,7 @@ do
   --  See `:help lsp-config` for information about keys and how to configure
   ---@type table<string, vim.lsp.Config>
   local servers = {
-    -- clangd = {},
+    clangd = {},
     gopls = {},
     phpactor = {},
     vtsls = {},
@@ -785,6 +785,7 @@ do
     'pint', -- Alternative PHP formatter
     'ruff', -- Used to format Python
     'tailwindcss-language-server', -- Tailwind CSS LSP
+    'clang-format', -- Used to format C/C++
     -- You can add other tools here that you want Mason to install
   })
 
@@ -839,6 +840,8 @@ do
       php = { 'php_cs_fixer', 'pint', stop_after_first = true },
       markdown = { 'prettierd', 'prettier', 'injected', stop_after_first = true },
       python = { 'ruff', stop_after_first = true },
+      c = { 'clang-format' },
+      cpp = { 'clang-format' },
     },
   }
 
@@ -947,7 +950,7 @@ do
   vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
 
   -- Ensure basic parsers are installed
-  local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'go', 'gomod', 'gosum', 'php', 'typescript', 'javascript', 'python', 'css', 'scss' }
+  local parsers = { 'bash', 'c', 'cpp', 'cmake', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'go', 'gomod', 'gosum', 'php', 'typescript', 'javascript', 'python', 'css', 'scss' }
   require('nvim-treesitter').install(parsers)
 
   ---@param buf integer

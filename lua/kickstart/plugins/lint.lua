@@ -11,6 +11,8 @@ lint.linters_by_ft = {
   typescriptreact = { 'eslint_d' },
   go = { 'golangcilint' },
   php = { 'phpstan' },
+  c = { 'clangtidy' },
+  cpp = { 'clangtidy' },
 }
 
 -- To allow other plugins to add linters to require('lint').linters_by_ft,

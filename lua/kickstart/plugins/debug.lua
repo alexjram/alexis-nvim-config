@@ -61,8 +61,34 @@ require('mason-nvim-dap').setup {
     'delve',
     'php-debug-adapter',
     'js-debug-adapter',
+    'codelldb',
   },
 }
+
+-- C/C++ Debug Configuration (codelldb)
+local codelldb_path = vim.fn.stdpath 'data' .. '/mason/packages/codelldb/extension/adapter/codelldb'
+if vim.fn.has 'win32' == 1 then codelldb_path = codelldb_path .. '.exe' end
+
+dap.adapters.codelldb = {
+  type = 'server',
+  port = '${port}',
+  executable = {
+    command = codelldb_path,
+    args = { '--port', '${port}' },
+    detached = vim.fn.has 'win32' == 0,
+  },
+}
+
+local codelldb_launch = {
+  name = 'Launch',
+  type = 'codelldb',
+  request = 'launch',
+  program = function() return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file') end,
+  cwd = '${workspaceFolder}',
+  stopOnEntry = false,
+}
+dap.configurations.c = { codelldb_launch }
+dap.configurations.cpp = { codelldb_launch }
 
 -- Dap UI setup
 -- For more information, see |:help nvim-dap-ui|
